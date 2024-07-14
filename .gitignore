@@ -1,0 +1,47 @@
+# Ignore .env file in the main project
+.env
+
+# Ignore bin and obj (build output directories) in the main project
+Assignment/bin/
+Assignment/obj/
+
+# Ignore bin and obj (build output directories) in the unit test project
+Assignment.UnitTests/bin/
+Assignment.UnitTests/obj/
+
+# Ignore bin and obj (build output directories) in the integration test project
+Assignment.IntegrationTests/bin/
+Assignment.IntegrationTests/obj/
+
+# Ignore TestResults directory
+TestResults/
+
+# Ignore user-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Ignore packages directory
+packages/
+
+# Ignore build results
+*.dll
+*.exe
+*.app
+*.log
+*.vsix
+*.pdb
+*.nupkg
+
+# Ignore project files directory
+.project/
+.idea/
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore OS generated files
+Thumbs.db
+*.DS_Store

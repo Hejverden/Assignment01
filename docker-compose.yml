@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  assignment:
+    image: assignment-image
+    build:
+      context: .
+      dockerfile: Assignment/Dockerfile
+    ports:
+      # - "5129:80"  # Host HTTP port 5129 maps to container port 80
+      # - "7044:443" # Host HTTPS port 7044 maps to container port 443
+      - "${HOST_HTTP_PORT}:${CONTAINER_HTTP_PORT}" # Map host port 5129 to container port 80 (HTTP)
+      - "${HOST_HTTPS_PORT}:${CONTAINER_HTTPS_PORT}" # Map host port 7044 to container port 443 (HTTPS)
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    env_file:
+      - .env # Load .env file for general environment variables
+    volumes:
+      - .:/src # Mount the project directory in the container for development
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Unit tests as a separate service while dependent on the assignment service
+  unit-tests:
+    build:
+      context: .
+      dockerfile: Assignment.UnitTests/Dockerfile.UnitTests
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    env_file:
+      - .env
+    volumes:
+      - .:/src # Mount the project directory in the container for development
+    depends_on:
+      assignment:
+        condition: service_healthy
+
+  # Integration tests as a separate service while dependent on the assignment service
+  integration-tests:
+    build:
+      context: .
+      dockerfile: Assignment.IntegrationTests/Dockerfile.IntegrationTests
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    env_file:
+      - .env
+    volumes:
+      - .:/src # Mount the project directory in the container for development
+    depends_on:
+      assignment:
+        condition: service_healthy
+
+
