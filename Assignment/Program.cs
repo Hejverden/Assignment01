@@ -27,6 +27,7 @@ if (string.IsNullOrEmpty(flickrApiKey) || string.IsNullOrEmpty(flickrApiSecret))
 var configuration = builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables()
     .Build();
 
 Log.Logger = new LoggerConfiguration()
