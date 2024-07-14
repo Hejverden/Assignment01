@@ -84,15 +84,15 @@ The environment for the application can also directly given in the docker-compos
 #### Manual environment definition
 This method is useful for local development and testing on your machine.
 
-  ** Linux/MacOS **
-    - export ASPNETCORE_ENVIRONMENT=Production   # For Production environment
-    - export ASPNETCORE_ENVIRONMENT=Development  # For Development environment (default)
-    - export ASPNETCORE_ENVIRONMENT=Test         # For Test environment
+- *Linux/MacOS (Terminal)*
+  - export ASPNETCORE_ENVIRONMENT=Production   # For Production environment
+  - export ASPNETCORE_ENVIRONMENT=Development  # For Development environment (default)
+  - export ASPNETCORE_ENVIRONMENT=Test         # For Test environment
 
-  ** Windows (PowerShell) **
-    - $Env:ASPNETCORE_ENVIRONMENT = "Production"   # For Production environment
-    - $Env:ASPNETCORE_ENVIRONMENT = "Development"  # For Development environment (default)
-    - $Env:ASPNETCORE_ENVIRONMENT = "Test"         # For Test environment
+- *Windows (PowerShell)*
+  - $Env:ASPNETCORE_ENVIRONMENT = "Production"   # For Production environment
+  - $Env:ASPNETCORE_ENVIRONMENT = "Development"  # For Development environment (default)
+  - $Env:ASPNETCORE_ENVIRONMENT = "Test"         # For Test environment
 
 ### Environment Variables
 To send requests to the Flickr API, you need to have your own API key and API secret. Since these are sensitive information, I have chosen to securely save them inside a _.env_ file in the project root directory while also excluding it from all commits to my git recpository.
