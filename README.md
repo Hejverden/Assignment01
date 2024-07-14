@@ -1,13 +1,23 @@
 # Assignment Project
 
 ## Introduction
-This project is a web application built with ASP.NET Core. It's structured to separate concerns between user interactions (Controllers), data models (Models), business logic (Services), and views (Views). It also includes configuration files and resources (wwwroot) for front-end assets.
+The Assignment project is a .Net 8 ASP.NET Core MVC web application developed. The backend part includes a REST API while the frontend is written in Javascript and CSS. The functional requirement for the application is as follows:
 
-### Conceptual Design
-HERE I need a sketch, ...
-Now testing my ci/cd pipeline
+- The front end provides the users with a search functionality which in turn sends an API request to the backend REST API.  
+- The REST API recieves the request and sends that further to Flickr public search API (flickr.photos.search)
+- After fetching photos from Flickr, the backend sends a list of all photos back to the front end which in turn displays the photos to the user.
 
+In other words, the application works as a proxy getting between users and Flickr service.
 
+The application is structured so that it separates concerns between user interactions (Controllers), data models (Models), business logic (Services), and views (Views). It also includes configuration files and resources (wwwroot) for front-end assets. 
+Besides the main application, the solution contains two test projects for unit tesing and for integration testing.
+
+### Architectural Design (Conceptual)
+To describe the project visually, the following presents an architectural diagram followed by a flowchart.  
+
+![[Architecture Diagram]](Architecture.png)
+
+### Flowchart
 ![Flowchart](FlowChart.png)
 
 ## Getting Started
