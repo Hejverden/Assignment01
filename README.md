@@ -5,6 +5,7 @@ This project is a web application built with ASP.NET Core. It's structured to se
 
 ### Conceptual Design
 HERE I need a sketch, ...
+Now testing my ci/cd pipeline
 
 
 ![Flowchart](FlowChart.png)
