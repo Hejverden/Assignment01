@@ -98,29 +98,29 @@ This method is useful for local development and testing on your machine.
 To send requests to the Flickr API, you need to have your own API key and API secret. Since these are sensitive information, I have chosen to securely save them inside a _.env_ file in the project root directory while also excluding it from all commits to my git recpository.
 However, I have provided a sample file called _.env_example_ which contains all the environment variables used in the project as the following:
 
-  - FLICKR_API_KEY: API key from Flickr obtained upon Flickr account creation.
-  - FLICKR_API_SECRET: API secret from Flickr obtained together with API key upon Flickr account creation.
-  - HOST_HTTP_PORT
-  - CONTAINER_HTTP_PORT
-  - HOST_HTTPS_PORT
-  - CONTAINER_HTTPS_PORT
+  - _FLICKR_API_KEY_: API key from Flickr obtained upon Flickr account creation.
+  - _FLICKR_API_SECRET_: API secret from Flickr obtained together with API key upon Flickr account creation.
+  - _HOST_HTTP_PORT_
+  - _CONTAINER_HTTP_PORT_
+  - _HOST_HTTPS_PORT_
+  - _CONTAINER_HTTPS_PORT_
 
 The values of *FLICKR_API_KEY* and *FLICKR_API_SECRET* are only placeholders in order to avoid revealing my personal Flickr API key and secret. Thus, you only need to replace the two placeholders with your actual Flickr API key and secret values.
 
-**NB:**
-*Eventhough the Flickr API key and secret are excluded from my git commits, in order to get the CI/CD pipeline to run successfully, I have added them as secrets in Github Action.* 
+_**NB:**_
+_Eventhough the Flickr API key and secret are excluded from my git commits, in order to get the CI/CD pipeline to run successfully, I have added them as secrets in Github Action._
 
 ### Run unit tests
-To run unit-/integration tests, navigate to the root directory of the solution project, type:
-  _dotnet test_ 
-will run all tests in the entire solution. 
+To run all unit-/integration tests inside the entire solution tests:
+  - navigate to the root directory of the solution project
+  - Type _dotnet test_ 
 
 ### Run the application in Debug mode ###
 To build and run the application do either of the following options:
   - Press F5 (for debug) or ctrl+F5 (no debug)
   - Navigate to the application project directory (Assignment)
-    1. *dotnet build* will build the application
-    2. *dotnet run* will start the application on a local server accissible at https://localhost:7044 or http://localhost:5129 (manually navigate to that).
+    - *dotnet build* will build the application
+    - *dotnet run* will start the application on a local server accissible at https://localhost:7044 or http://localhost:5129 (manually navigate to that).
 
 ### Deploy and run the application in Docker ###
 This project includes a Docker setup that allows you to build and run the application in isolated containers. Using Docker simplifies the environment setup and ensures consistency across different machines.
