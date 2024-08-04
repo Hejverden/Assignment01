@@ -1,7 +1,7 @@
-# Assignment Project
+# Project01 Project
 
 ## Introduction
-The Assignment project is a .Net 8 ASP.NET Core MVC web application developed. The backend part includes a REST API while the frontend is written in Javascript and CSS. The functional requirement for the application is as follows:
+Project01 is a .Net 8 ASP.NET Core MVC web application developed. The backend part includes a REST API while the frontend is written in Javascript and CSS. The functional requirement for the application is as follows:
 
 - The front end provides the users with a search functionality which in turn sends an API request to the backend REST API.  
 - The REST API recieves the request and sends that further to Flickr public search API (flickr.photos.search)
@@ -37,10 +37,10 @@ Ensure you have the following installed on your machine:
 Choose either of the options below to open the project in your preferred IDE that supports ASP.NET Core development eg. Visual Studio Code (VS Code)
 
   - Unzip the project file --> using cmd in Windows (terminal in mac os) navigate to the root directory of the project --> type "code .". This will open the project in VS Code.
-  - Clone the git repository from *https://github.com/Hejverden/Assignment01.git*
+  - Clone the git repository from *https://github.com/Hejverden/Project0101.git*
     - Using terminal (Mac) or cmd (windows) navigate to the root directory of the project
     - Type *code .*. This will open the project in VS Code.
-    - Type *git clone https://github.com/Hejverden/Assignment01.git*
+    - Type *git clone https://github.com/Hejverden/Project0101.git*
 
 ### Installing Dependencies
 To install the required packages for this project, run the following command in your terminal in VS Code:
@@ -118,7 +118,7 @@ To run all unit-/integration tests inside the entire solution tests:
 ### Run the application in Debug mode ###
 To build and run the application do either of the following options:
   - Press F5 (for debug) or ctrl+F5 (no debug)
-  - Navigate to the application project directory (Assignment)
+  - Navigate to the application project directory (Project01)
     - *dotnet build* will build the application
     - *dotnet run* will start the application on a local server accissible at https://localhost:7044 or http://localhost:5129 (manually navigate to that).
 
@@ -161,7 +161,7 @@ This project includes a Docker setup that allows you to build and run the applic
 
 - wwwroot/:**
   - Contains static files like CSS, JavaScript, and the index.html (the latter could be used, but it is not). 
-  As required by the assignment, all the CSS and javascript codes are written from scratch by myself. All styling libraries which came with the creation of the ASP.Net MVC has been deleted. 
+  As required by the Project01, all the CSS and javascript codes are written from scratch by myself. All styling libraries which came with the creation of the ASP.Net MVC has been deleted. 
 
 
 

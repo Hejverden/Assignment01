@@ -14,7 +14,10 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
+    - name: Display dotnet version
+      run: dotnet --version
+
+    - name: Install/Restore dependencies
       run: dotnet restore
 
     - name: Build
@@ -32,3 +35,4 @@ jobs:
         FLICKR_API_SECRET: ${{ secrets.FLICKR_API_SECRET }}
 
 
+# Additional details:

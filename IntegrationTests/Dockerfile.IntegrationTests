@@ -1,0 +1,22 @@
+
+# Stage 1: Build the integration tests
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /.src
+
+# Copy the project files knowing that the UnitTests project is in a different directory from the Project01 project
+# NB: The UnitTests project is dependent on the Project01 project
+COPY IntegrationTests/*.csproj ./IntegrationTests/
+COPY Project01/*.csproj ./Project01/
+
+# Restore the dependencies
+RUN dotnet nuget locals all --clear
+RUN dotnet restore ./IntegrationTests/IntegrationTests.csproj
+
+# Copy the remaining files
+COPY . .
+
+# Build the project
+RUN dotnet build ./IntegrationTests/IntegrationTests.csproj -c Release
+
+# Run the tests
+CMD ["dotnet", "test", "IntegrationTests/IntegrationTests.csproj", "--logger:trx", "--results-directory", "/app/TestResults/IntegrationTests"]

@@ -2,16 +2,16 @@
 .env
 
 # Ignore bin and obj (build output directories) in the main project
-Assignment/bin/
-Assignment/obj/
+Project01/bin/
+Project01/obj/
 
 # Ignore bin and obj (build output directories) in the unit test project
-Assignment.UnitTests/bin/
-Assignment.UnitTests/obj/
+UnitTests/bin/
+UnitTests/obj/
 
 # Ignore bin and obj (build output directories) in the integration test project
-Assignment.IntegrationTests/bin/
-Assignment.IntegrationTests/obj/
+IntegrationTests/bin/
+IntegrationTests/obj/
 
 # Ignore TestResults directory
 TestResults/

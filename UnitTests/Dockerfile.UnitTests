@@ -1,0 +1,21 @@
+# Stage 1: Build the unit tests
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /.src
+
+# Copy the project files knowing that the UnitTests project is in a different directory from the Project01 project
+# NB: The UnitTests project is dependent on the Project01 project
+COPY UnitTests/*.csproj ./UnitTests/
+COPY Project01/*.csproj ./Project01/
+
+# Restore the dependencies
+RUN dotnet nuget locals all --clear
+RUN dotnet restore ./UnitTests/UnitTests.csproj
+
+# Copy the remaining files
+COPY . .
+
+# Build the project
+RUN dotnet build ./UnitTests/UnitTests.csproj -c Release
+
+# Run the tests
+CMD ["dotnet", "test", "UnitTests/UnitTests.csproj", "--logger:trx", "--results-directory", "/app/TestResults/UnitTests"]

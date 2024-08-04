@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  assignment:
-    image: assignment-image
+  Project01:
+    image: project01-image
     build:
       context: .
-      dockerfile: Assignment/Dockerfile
+      dockerfile: Project01/Dockerfile
     ports:
       # - "5129:80"  # Host HTTP port 5129 maps to container port 80
       # - "7044:443" # Host HTTPS port 7044 maps to container port 443
@@ -24,11 +24,11 @@ services:
       retries: 3
       start_period: 30s
 
-  # Unit tests as a separate service while dependent on the assignment service
+  # Unit tests as a separate service while dependent on the Project01 service
   unit-tests:
     build:
       context: .
-      dockerfile: Assignment.UnitTests/Dockerfile.UnitTests
+      dockerfile: UnitTests/Dockerfile.UnitTests
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     env_file:
@@ -36,14 +36,14 @@ services:
     volumes:
       - .:/src # Mount the project directory in the container for development
     depends_on:
-      assignment:
+      Project01:
         condition: service_healthy
 
-  # Integration tests as a separate service while dependent on the assignment service
+  # Integration tests as a separate service while dependent on the Project01 service
   integration-tests:
     build:
       context: .
-      dockerfile: Assignment.IntegrationTests/Dockerfile.IntegrationTests
+      dockerfile: IntegrationTests/Dockerfile.IntegrationTests
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     env_file:
@@ -51,7 +51,7 @@ services:
     volumes:
       - .:/src # Mount the project directory in the container for development
     depends_on:
-      assignment:
+      Project01:
         condition: service_healthy
 
 
