@@ -2,6 +2,7 @@ using Project01.Models;
 using Microsoft.Extensions.Options;
 using Moq;
 using Newtonsoft.Json.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 /// <summary>
 /// Unit tests: Mock-testing the logic and functionality of the FetchService class.
@@ -9,9 +10,10 @@ using Newtonsoft.Json.Linq;
 ///     And that logic is dependent on IHttpClientWrapper.
 ///     Thus, the IHttpClientWrapper needs to be mocked in order to test the FetchService class.
 /// </summary>
+[TestClass]
 public class FetchServiceTests
 {
-    [Fact]
+    [TestMethod]
     public async Task SearchPhotosAsync_ReturnsPhotos()
     {
         // Arrange
@@ -63,11 +65,10 @@ public class FetchServiceTests
         var result = await fetchService.SearchPhotosAsync(searchTerm, page, "Relevant");
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Equal("Panchita hdr", result[0].Title);
-        Assert.Equal("53853127416", result[0].Id);
-        Assert.Equal("65535", result[0].Server);
-        Assert.Equal("0f26b237a0", result[0].Secret);
+        Assert.AreEqual(1, result.Count(), "The result should contain exactly one item.");
+        Assert.AreEqual("Panchita hdr", result[0].Title);
+        Assert.AreEqual("53853127416", result[0].Id);
+        Assert.AreEqual("65535", result[0].Server);
+        Assert.AreEqual("0f26b237a0", result[0].Secret);
     }
 }

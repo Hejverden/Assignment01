@@ -1,7 +1,10 @@
 using DotNetEnv;
 using Project01.Models;
+using Project01.Data;
 using Serilog;
 using Serilog.Formatting.Compact;
+using Microsoft.EntityFrameworkCore;
+using Project01;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +45,15 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configure DbContext with SQLite
+var dbDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Database");
+var dbPath = Path.Combine(dbDirectory, "Project01.db");
+Directory.CreateDirectory(dbDirectory); // Ensure directory exists
+
+var connectionString = $"Data Source={dbPath}";
+builder.Services.AddDbContext<Project01DbContext>(options =>
+    options.UseSqlite(connectionString));
+
 // Add health checks for the main application (web application): the test services might possibly be dependent on the health of the main application.  
 builder.Services.AddHealthChecks();
 
@@ -62,6 +74,18 @@ builder.Services.AddTransient<IFetchService, FetchService>();
 
 var app = builder.Build();
 
+// Apply migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<Project01DbContext>();
+    var environment = app.Services.GetRequiredService<IHostEnvironment>();
+    if (!environment.IsEnvironment("Test"))
+    {
+        dbContext.Database.EnsureDeleted(); // Ensuring the database is deleted
+    }
+    dbContext.Database.Migrate(); // Applying any pending migrations
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment() && !app.Environment.EnvironmentName.Equals("Test", StringComparison.OrdinalIgnoreCase))
 {
@@ -71,12 +95,11 @@ if (!app.Environment.IsDevelopment() && !app.Environment.EnvironmentName.Equals(
 
 app.UseHttpsRedirection();
 
-// When using static files (images, css, js, etc.) I want to ensure caching for JavaScript and css files is disabled
+// Disable caching for JavaScript and css files
 app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
     {
-        // Disable caching for JavaScript and css files
         if (ctx.Context.Request.Path.StartsWithSegments("/js") ||
             ctx.Context.Request.Path.StartsWithSegments("/css"))
         {
@@ -94,7 +117,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+// Register the shutdown event to perform additional cleanup if necessary
+// var lifetime = app.Lifetime;
+// lifetime.ApplicationStopping.Register(() => CleanUpHelper.OnShutdown(app.Services));
 
+app.Run();
 
 public partial class Program { }

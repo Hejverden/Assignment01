@@ -7,25 +7,38 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="xunit" Version="2.5.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
-    <PackageReference Include="coverlet.collector" Version="6.0.0" >
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="MSTest.TestAdapter" Version="3.5.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.5.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
+<ItemGroup>
+  <None Update="appsettings.json">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+  <None Update="appsettings.Test.json">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Project01\Project01.csproj" />
-  </ItemGroup>
+  <!-- Ensure the database file is copied to output directory -->
+  <None Update="Database/Project01.db">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\Project01\Project01.csproj" />
+</ItemGroup>
 
 </Project>

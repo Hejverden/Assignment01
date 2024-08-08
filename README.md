@@ -31,7 +31,7 @@ Ensure you have the following installed on your machine:
   - Visual Studio Code : https://code.visualstudio.com/download
   - C# for Visual Studio Code (latest version): https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
   - .NET 8.0 SDK: https://dotnet.microsoft.com/en-us/download/dotnet/8.0
-  - Make sure you have Docker installed on your machine. You can download it from Docker's official site: https://www.docker.com/
+  - For deploying to Docker: make sure you have Docker installed on your machine. You can download it from Docker's official site: https://www.docker.com/
 
 ### Setting Up the Project
 Choose either of the options below to open the project in your preferred IDE that supports ASP.NET Core development eg. Visual Studio Code (VS Code)
@@ -58,9 +58,12 @@ Using *dotnet restore`* is generally sufficient for ensuring that all necessary 
   - Serilog.Sinks.File
   - Microsoft.NET.Test.Sdk
   - Microsoft.AspNetCore.Mvc.Testing
-  - xunit
-  - xunit.runner.visualstudio
   - Moq
+  - Microsoft.EntityFrameworkCore
+  - Microsoft.EntityFrameworkCore.Sqlite
+  - Microsoft.EntityFrameworkCore.Tools
+  - Microsoft.EntityFrameworkCore.InMemory
+
 
 For manual installation, use;
 *dotnet add package _packagename_*
@@ -164,4 +167,15 @@ This project includes a Docker setup that allows you to build and run the applic
   As required by the Project01, all the CSS and javascript codes are written from scratch by myself. All styling libraries which came with the creation of the ASP.Net MVC has been deleted. 
 
 
+## Notes regarding the front-end
+As can be seen, the Index.cshtml is purely static, since the application is relatively simple and I chose to fill photo gallery and tables all on the client side through my javascript code. This means that no "Model" has been used as one would do so using Razor pages. However, in the future, adding more features to the application, it could be necessary to add some Razor models to the application.
 
+
+## Ideas for improvement
+There are several ways to enhance the applicaiton functionality and further improve the application such as:
+
+  - Introducing user accounts into the application and using a users database to store user profiles, preferences, and activity logs
+  - Introducing photos database to cache search results to reduce the number of API calls to Flickr and improve performance
+  - Using AI to fx. find related search or offer search suggestions
+  - Creating a scheduled fetch of the most recent photos from Flickr's public API with a desired frequency and storing the results in the application database so that the backend code searches for photos from the application database itself instead of sending API request to Flicker upon each user request. 
+  - ...

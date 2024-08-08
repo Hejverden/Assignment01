@@ -4,32 +4,45 @@
 
 <link rel="stylesheet" href="~/css/main.css" />
 
-<div class="search-bar">
-    <input type="text" id="searchTerm" placeholder="Search photos...">
-    <button onclick="handleSearch()">Search</button>
+<table class="main-table">
+    <tr>
+        <td>
+            <div class="search-bar">
+                <input type="text" id="searchTerm" placeholder="Search photos...">
+                <button onclick="handleSearch()">Search</button>
 
-    <select id="filter" onchange="handleFilterChange()">
-        <option value="Relevant">Relevant</option>
-        <option value="Interesting">Interesting</option>
-        <option value="Date uploaded">Date uploaded</option>
-        <option value="Date taken">Date taken</option>
-    </select>
-</div>
+                <select id="sorting" onchange="handleSortingChange()">
+                    <option value="Relevant">Relevant</option>
+                    <option value="Interesting">Interesting</option>
+                    <option value="Date uploaded">Date uploaded</option>
+                    <option value="Date taken">Date taken</option>
+                </select>
+            </div>
 
-<p id="note"></p>
+            <p id="note"></p>
+        </td>
+    </tr>
 
-<div class="container">
-    <div class="photo-gallery-container">
-        <div class="photo-gallery" id="photoGallery"> 
-        </div>
-    </div>
+    <tr>
+        <td id="td_gallery_container">
+            <div class="photo-gallery-container"/>
+            <div class="photo-gallery" id="photoGallery"/> 
+        </td>
 
-    <div class="loading" id="loading" style="display: none;">
-    Loading... <br/>
-    <div class="spinner"></div>
-</div>
-<div class="error" id="error" style="display: none;">Failed to load photos</div>
-</div>
+        <td id="td_text_container">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="loading" id="loading" style="display: none;">
+                Loading... <br/>
+                <div class="spinner"></div>
+            </div>
+            <div class="error" id="error" style="display: none;">Failed to load photos</div>
+        </td>
+    </tr>
+</table>
 
 @section Scripts {
     @* Appending a new unique version so that the browser does not use older js files from cache.

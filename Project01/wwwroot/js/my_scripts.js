@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     window.currentPage = 1;
     window.currentSearchTerm = '';
     window.isLoading = false;
-    window.currentFilter = "Relevant";
+    window.currentSorting = "Relevant";
 
     // ************************************************************************************************
     // Handling/activating search if the following occurs: 
@@ -12,16 +12,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
     {
         window.currentSearchTerm = document.getElementById('searchTerm').value;
         window.currentPage = 1;
-        const filter = document.getElementById("filter").value;
+        const sorting = document.getElementById("sorting").value;
         document.getElementById('photoGallery').innerHTML = ''; // Clear previous results
         if (window.currentSearchTerm) 
         {
-            fetchPhotos(window.currentSearchTerm, window.currentPage, filter);
+            fetchPhotos(window.currentSearchTerm, window.currentPage, sorting);
         } 
         else 
         {
-            fetchPhotos("", window.currentPage, filter);
+            fetchPhotos("", window.currentPage, sorting);
         }
+        updateHistory();
     }
 
     // Add event listener for Enter key press on the search input
@@ -37,19 +38,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // ************************************************************************************************
     // Search category: Relevance, Data uploaded, Date taken, Interesting
-    window.handleFilterChange = function () 
+    window.handleSortingChange = function () 
     {
         window.currentSearchTerm = document.getElementById('searchTerm').value;
         window.currentPage = 1;
-        const filter = document.getElementById("filter").value;
+        const sorting = document.getElementById("sorting").value;
         document.getElementById('photoGallery').innerHTML = ''; // Clear previous results
-        fetchPhotos(window.currentSearchTerm, window.currentPage, filter);
-        window.currentFilter = filter;
+        fetchPhotos(window.currentSearchTerm, window.currentPage, sorting);
+        window.currentSorting = sorting;
     }
 
     // ************************************************************************************************
     // Fetching photos by sending API request to the applications REST API
-    window.fetchPhotos = function(searchTerm, page, filter) 
+    window.fetchPhotos = function(searchTerm, page, sorting) 
     {
         if (window.isLoading) return; // Prevent multiple simultaneous requests
         window.isLoading = true;
@@ -83,8 +84,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (!searchTerm || searchTerm.trim() === "")
         {
             console.log("Search term: NULL");
-            url = `/api/photos/search?searchTerm=null&page=${encodeURIComponent(page)}&sort=${encodeURIComponent(filter)}`;
-            document.getElementById('filter').value = "Date uploaded";
+            url = `/api/photos/search?searchTerm=null&page=${encodeURIComponent(page)}&sort=${encodeURIComponent(sorting)}`;
+            document.getElementById('sorting').value = "Date uploaded";
             console.log("Our REST API URL:", url);
             var  note = "NB: Entering a whitespace or no search term will return the most recent photos from Flickr!";
             document.getElementById('note').innerHTML = note;
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         else
         {
             console.log("Search term:", searchTerm);
-            url = `/api/photos/search?searchTerm=${encodeURIComponent(searchTerm)}&page=${encodeURIComponent(page)}&sort=${encodeURIComponent(filter)}`;
+            url = `/api/photos/search?searchTerm=${encodeURIComponent(searchTerm)}&page=${encodeURIComponent(page)}&sort=${encodeURIComponent(sorting)}`;
             console.log("Our REST API URL:", url);
             document.getElementById('note').innerHTML = "";
             document.getElementById('note').style.display = "none";
@@ -165,8 +166,72 @@ document.addEventListener('DOMContentLoaded', (event) => {
         {
             window.currentPage++;
             window.currentSearchTerm = document.getElementById('searchTerm').value;
-            fetchPhotos(window.currentSearchTerm, window.currentPage, window.currentFilter);
+            fetchPhotos(window.currentSearchTerm, window.currentPage, window.currentSorting);
         }
     });
-});
 
+    // ************************************************************************************************
+    // Showing recent search
+    window.updateHistory = function()
+    {
+        const td_text_container = document.getElementById('td_text_container');
+        // Clear the existing content
+        td_text_container.innerHTML = '';
+
+        // Create the table element
+        const table = document.createElement('table');
+
+        // Create the first tr element
+        const tr1 = document.createElement('tr');
+        const td1 = document.createElement('td');
+        td1.textContent = 'Recent Search';
+        tr1.appendChild(td1);
+
+        // Create the second tr element
+        const tr2 = document.createElement('tr');
+        const td2 = document.createElement('td');
+
+        // Create the div element with id 'text_container'
+        const textContainerDiv = document.createElement('div');
+        textContainerDiv.id = 'text_container';
+        textContainerDiv.style.border = '1px solid black';
+
+        var searchHistoryurl = `/api/searchHistory/show`;
+        fetch(searchHistoryurl)
+            .then(response => 
+            {
+                if (response.ok) 
+                {
+                    console.log("Search term response:", response);
+                    return response.json();
+                }
+            })
+            .then(data => 
+            {
+                data.forEach(searchTermObj => 
+                {
+                    const termButton = document.createElement('button');
+                    termButton.className = 'search-term';
+                    termButton.textContent = searchTermObj.queryText;
+                    textContainerDiv.appendChild(termButton);
+
+                    termButton.onclick = function() {
+                        document.getElementById('searchTerm').value = searchTermObj.queryText;
+                        handleSearch();
+                    };
+                });
+            })
+            .catch((err) => 
+            {
+            }
+        );
+
+        td2.appendChild(textContainerDiv);
+        tr2.appendChild(td2);
+        
+        table.appendChild(tr1);
+        table.appendChild(tr2);
+
+        td_text_container.appendChild(table);
+    }
+});
